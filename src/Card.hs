@@ -31,7 +31,7 @@ data Rank = Ace
              | King
              deriving (Show, Eq, Ord)
 
-data Card = Card Suit Rank | Joker deriving (Show)
+data Card = Card Suit Rank | Joker deriving (Eq, Show)
 
 type Deck = [Card]
 type Hand = [Card]
