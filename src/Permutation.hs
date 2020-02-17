@@ -1,11 +1,8 @@
 module Permutation where
 
-import Data.List
+import Data.List (delete)
 
-factorial :: Integer -> Integer
-factorial 0 = 1
-factorial 1 = 1
-factorial n = n * (factorial (n-1))
+import Utils (factorial)
 
 numberOfPermutations :: [a] -> Integer
 numberOfPermutations dataSet = factorial (toInteger (length dataSet))

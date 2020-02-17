@@ -1,14 +1,8 @@
 module Card
     ( Hand,
       Deck,
-      initialDeck,
-      shuffle
+      initialDeck
     ) where
-
-import System.Random
-import Data.List
-
-import Utils
 
 data Suit = Clubs 
             | Diamonds 
@@ -47,23 +41,3 @@ makeCard s r = Card s r
 
 initialDeck :: Deck
 initialDeck = concat $ map (\x -> map (makeCard x) ranks) suits
-
-getCardAtIndex :: Deck -> Int -> Card
-getCardAtIndex deck index = deck !! index
-
-shuffleArray :: [Int] -> [Integer] -> [Int]
-shuffleArray [] _ = []
-shuffleArray [x] _ = [x]
-shuffleArray list (x:xs) = (fst result) : (shuffleArray (snd result) xs)
-                      where result = getAndDeleteFromList x list
-shuffleArray _ _ = []
-
-getAndDeleteFromList :: Integer -> [Int] -> (Int, [Int])
-getAndDeleteFromList index nums = (a, delete a nums)
-                                    where a = nums !! (fromIntegral index)
-
-shuffle :: Deck -> IO [Card]
-shuffle deck = do
-    g <- newStdGen
-    d <- pure $ map (\x -> fst $ randomR (toInteger 0, toInteger x) g) [(length deck - 1), (length deck - 2)..0]
-    pure $ map (\x -> getCardAtIndex deck x) (shuffleArray [0..(length deck - 1)] d)
