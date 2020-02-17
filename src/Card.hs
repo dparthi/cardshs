@@ -8,7 +8,7 @@ data Suit = Clubs
             | Diamonds 
             | Hearts 
             | Spades 
-            deriving (Show, Eq)
+            deriving (Show, Eq, Ord)
 
 data Rank = Ace
              | Two
@@ -25,7 +25,7 @@ data Rank = Ace
              | King
              deriving (Show, Eq, Ord)
 
-data Card = Card Suit Rank | Joker deriving (Eq, Show)
+data Card = Card Suit Rank | Joker deriving (Eq, Show, Ord)
 
 type Deck = [Card]
 type Hand = [Card]

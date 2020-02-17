@@ -1,6 +1,7 @@
 module Lib
     ( initGame
       , deal
+      , shuffle
     ) where
 
 import Card (Hand, Deck, initialDeck)
@@ -20,7 +21,7 @@ addToPlayer card players count = snd $ foldl (\(c,yy) player -> if count `mod` (
 isRummy :: Hand -> Bool
 isRummy hand = True
 
-shuffle :: Deck -> IO Deck
+shuffle :: Eq a => [a] -> IO [a]
 shuffle deck = do
   index <- getRandomNumber 0 (numberOfPermutations deck)
   let newDeck = getPermutationAtIndex deck index
