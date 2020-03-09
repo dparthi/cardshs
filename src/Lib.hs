@@ -8,16 +8,31 @@ import Data.List (sort)
 import Card (Hand, Deck, initialDeck, showHand)
 import Utils (getRandomNumber, replace)
 import Permutation (getPermutationAtIndex, numberOfPermutations)
+
 -- import Player
 
 -- players :: [Player]
 -- players = [Player {name="A",hand=[]}, Player {name="B",hand=[]}]
 
 deal :: Foldable t => Int -> Int -> t a -> [[a]]
-deal nPlayers nCards deck = snd $ foldl (\(count,players) card -> if count < (nCards * nPlayers) then (count+1,(addToPlayer card players count)) else (count, replace players (nPlayers,(players !! (nPlayers)) ++ [card]))) (0,map (\e -> []) [0..(nPlayers)]) deck
+deal nPlayers nCards deck =
+  snd $
+  foldl (
+    \(count,players) card ->
+      if count < (nCards * nPlayers)
+        then (count+1,(addToPlayer card players count))
+        else (count+1, replace players (nPlayers,(players !! nPlayers) ++ [card]))
+  ) (0,map (\e -> []) [0..nPlayers]) deck
 
 addToPlayer :: Foldable t => a -> t [a] -> Int -> [[a]]
-addToPlayer card players count = snd $ foldl (\(c,yy) player -> if count `mod` ((length players) - 1) == c then (c+1,yy ++ ([player ++ [card]])) else (c+1,yy ++ [player])) (0,[]) players
+addToPlayer card players count =
+  snd $
+  foldl (
+    \(c,yy) player ->
+      if count `mod` ((length players) - 1) == c
+        then (c+1,yy ++ ([player ++ [card]]))
+        else (c+1,yy ++ [player])
+  ) (0,[]) players
 
 isRummy :: Hand -> Bool
 isRummy hand = True
@@ -40,4 +55,4 @@ initGame = do
     putStr $ showHand $ sort $ (cx !! 1)
     print "-----------------------"
     print "Pile"
-    putStr $ showHand $ sort $ (cx !! 2)
+    putStr $ showHand $ (cx !! 2)
