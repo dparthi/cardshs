@@ -4,7 +4,8 @@ module Lib
       , shuffle
     ) where
 
-import Card (Hand, Deck, initialDeck)
+import Data.List (sort)
+import Card (Hand, Deck, initialDeck, showHand)
 import Utils (getRandomNumber, replace)
 import Permutation (getPermutationAtIndex, numberOfPermutations)
 -- import Player
@@ -29,11 +30,14 @@ shuffle deck = do
 
 initGame :: IO ()
 initGame = do
-    deck <- shuffle initialDeck
+    let d = initialDeck
+    deck <- shuffle $ d
     let cx = deal 2 13 deck
-    print $ cx !! 0
-    print $ length (cx !! 0)
-    print $ cx !! 1
-    print $ length (cx !! 1)
-    print $ cx !! 2
-    print $ length (cx !! 2)
+    print "Player 1"
+    putStr $ showHand $ sort $ (cx !! 0)
+    print "-----------------------"
+    print "Player 2"
+    putStr $ showHand $ sort $ (cx !! 1)
+    print "-----------------------"
+    print "Pile"
+    putStr $ showHand $ sort $ (cx !! 2)

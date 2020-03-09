@@ -1,7 +1,8 @@
 module Card
     ( Hand,
       Deck,
-      initialDeck
+      initialDeck,
+      showHand
     ) where
 
 data Suit = Clubs 
@@ -25,7 +26,9 @@ data Rank = Ace
              | King
              deriving (Show, Eq, Ord)
 
-data Card = Card Suit Rank | Joker deriving (Eq, Show, Ord)
+data Card = Card Suit Rank | Joker deriving (Eq, Ord)
+instance Show Card where
+  show (Card s r) = show (s) ++ " " ++ show (r)
 
 type Deck = [Card]
 type Hand = [Card]
@@ -41,3 +44,7 @@ makeCard s r = Card s r
 
 initialDeck :: Deck
 initialDeck = concat $ map (\x -> map (makeCard x) ranks) suits
+
+showHand :: Hand -> String
+showHand (x:[]) = show x ++ "\n"
+showHand (x:xs) = show x ++ "\n" ++ showHand(xs)
