@@ -9,11 +9,6 @@ import Card (Hand, Deck, initialDeck, showHand)
 import Utils (getRandomNumber, replace)
 import Permutation (getPermutationAtIndex, numberOfPermutations)
 
--- import Player
-
--- players :: [Player]
--- players = [Player {name="A",hand=[]}, Player {name="B",hand=[]}]
-
 deal :: Foldable t => Int -> Int -> t a -> [[a]]
 deal nPlayers nCards deck =
   snd $
