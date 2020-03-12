@@ -4,12 +4,12 @@ module Lib
       , shuffle
     ) where
 
-import Data.List (sort)
+import Data.List (sort, delete)
 import Card (Hand, Deck, initialDeck, showHand)
 import Utils (getRandomNumber, replace)
 import Permutation (getPermutationAtIndex, numberOfPermutations)
 
--- import Player
+import Player
 
 -- players :: [Player]
 -- players = [Player {name="A",hand=[]}, Player {name="B",hand=[]}]
@@ -35,7 +35,12 @@ addToPlayer card players count =
   ) (0,[]) players
 
 isRummy :: Hand -> Bool
-isRummy hand = True
+isRummy [] = False
+isRummy hand = foldl (\acc card -> True) False (sort hand)
+-- 3-3-3-4
+-- 3-5-5
+-- 4-4-5
+
 
 shuffle :: Eq a => [a] -> IO [a]
 shuffle deck = do
@@ -45,14 +50,31 @@ shuffle deck = do
 
 initGame :: IO ()
 initGame = do
-    let d = initialDeck
-    deck <- shuffle $ d
-    let cx = deal 2 13 deck
-    print "Player 1"
-    putStr $ showHand $ sort $ (cx !! 0)
-    print "-----------------------"
-    print "Player 2"
-    putStr $ showHand $ sort $ (cx !! 1)
-    print "-----------------------"
-    print "Pile"
-    putStr $ showHand $ (cx !! 2)
+  let d = initialDeck
+  deck <- shuffle $ d
+  let cx = deal 2 13 deck
+
+  let p1 = Player {name="Computer", hand=cx !! 0}
+  let p2 = Player {name="Human", hand=cx !! 1}
+  let pile = cx !! 2
+
+  putStrLn "Player 1"
+  putStr $ showHand $ sort $ hand p1
+  putStrLn "-----------------------"
+
+  putStrLn "Player 2"
+  putStr $ showHand $ sort $ hand p2
+  putStrLn "-----------------------"
+
+  putStrLn "Pile"
+  putStr $ showHand $ pile
+  putStrLn "-----------------------"
+
+  let openCard = pile !! 0
+  putStrLn $ "Open Card: " <> show openCard
+  putStrLn "-----------------------"
+
+  let pile1 = delete openCard pile
+  let openCard = pile1 !! 0
+  putStrLn $ "Open Card: " <> show openCard
+  putStrLn "-----------------------"
